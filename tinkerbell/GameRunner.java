@@ -97,21 +97,20 @@ public class GameRunner {
         // Create some robots and add them to the painter
         Robot robot1 = new Robot(25,160,36,36,0,
                                  true, Color.BLUE, "Team 554");
-        Camera cam1 = new Camera(5, -12, 20, 82, 150,
-                                 "cam1", aprilTagList, Color.CYAN,
+        Camera cam1 = new Camera(5, -12, 20, 62.5, 150,
+                                 "limelight-left", aprilTagList, Color.CYAN,
                                  1, 1);
         robot1.addCamera(cam1);
-        Camera cam2 = new Camera(5, 12, -20, 82,
-                                 150, "cam2", aprilTagList,
+        Camera cam2 = new Camera(5, 12, -20, 62.5,
+                                 150, "limelight-right", aprilTagList,
                                  Color.ORANGE, 1, 1);
         robot1.addCamera(cam2);
+        painter.addRobot(robot1);
 
         SwerveDrive swerveControler = new SwerveDrive(robot1, painter);
 
-        painter.addRobot(robot1);
-
-        Robot robot2 = new Robot(126,152,36,36,0,false,Color.GREEN,"test");
-        painter.addRobot(robot2);
+        // Robot robot2 = new Robot(534,206,36,36,240,false,Color.GREEN,"test");
+        // painter.addRobot(robot2);
 
         // Set up the frame and add the painter
         JFrame frame = new JFrame("Robot Simulation");

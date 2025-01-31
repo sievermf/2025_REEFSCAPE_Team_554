@@ -62,6 +62,46 @@ class Robot {
         }
     }
 
+    public List<Number> getCamStateEstimate() {
+        double totX = 0.;
+        double totY = 0.;
+        double totHeading = 0.;
+        int numViableCams = 0;
+        if (hasCamera) {
+            for (Camera cam : this.cameras) {
+                if (!Double.isNaN(cam.closestDist)) {
+                    numViableCams ++;
+                    List<Number> megaTag2Data = getMegaTag2(cam.label);
+                    totX += megaTag2Data.get(0).doubleValue();
+                    totY += megaTag2Data.get(1).doubleValue();
+                    totHeading += megaTag2Data.get(2).doubleValue();
+                }
+            }
+            double avgX = totX / numViableCams;
+            double avgY = totY / numViableCams;
+            double avgHeading = totHeading / numViableCams;
+            return List.of(avgX, avgY, avgHeading);
+        }
+        throw new IllegalArgumentException("Robot " + this.label + " has no cameras.");
+    }
+
+    public String getTargetingAprilTagID() {
+        double closestTagDist = Double.MAX_VALUE;
+        String targetingAprilTagID= "Na";
+        if (hasCamera) {
+            for (Camera cam : this.cameras) {
+                if (!Double.isNaN(cam.closestDist)) {
+                    if (closestTagDist > cam.closestDist) {
+                        closestTagDist = cam.closestDist;
+                        targetingAprilTagID = cam.closestID;
+                    }
+                }
+            }
+            return targetingAprilTagID;
+        }
+        throw new IllegalArgumentException("Robot " + this.label + " has no cameras.");
+    }
+
     // Function to find the camera with the given camID and return its robot states
     public List<Number> getMegaTag2(String camName) {
         if (hasCamera) {
